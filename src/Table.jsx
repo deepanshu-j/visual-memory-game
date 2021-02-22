@@ -1,5 +1,5 @@
 import react from 'react';
-
+import './Table.css';
 
 class Table extends react.Component{
     constructor(props)
@@ -24,11 +24,11 @@ class Table extends react.Component{
       console.log('no Flip');
     }
     render(){
-    return (<>hi from Table compo
-
+    return (<>
+        
         {/* {console.log(this.props.board)} */}
           
-          <ol>
+          <ol className="table-container">
             {this.props.board.map((subItems, sIndex) => {
 
               //using index as key as surely there wont be any rearrangement in the order//

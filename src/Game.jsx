@@ -60,7 +60,7 @@ class Game extends Component {
         this.setState((prevState)=>{
 
             let isCorrect= prevState.playersBoard[idx]!==prevState.actualBoard[idx]? true: false ;
-             console.log(isCorrect)
+            console.log(isCorrect)
             if(isCorrect)
             {
                 //check if he's won this game then change the state to next level
@@ -95,10 +95,10 @@ class Game extends Component {
                         ansFib--;
                     }
                     //curr will be decreased by 1 every time when it becomes 0 next cycle of fib which will be prev + curralt
-                   console.log(newFibPrev)
-                   console.log(ansFib)
-                   console.log(newFibAlt)
-                   console.log('\n')
+                //    console.log(newFibPrev)
+                //    console.log(ansFib)
+                //    console.log(newFibAlt)
+                //    console.log('\n')
                     return {playersBoard:newPlayersBoard,
                             donePieces:0,
                             isPlaying:false,
@@ -115,7 +115,7 @@ class Game extends Component {
                 else
                 {
                     let newPlayersBoard=[...prevState.playersBoard];
-                    console.log(newPlayersBoard)
+                   // console.log(newPlayersBoard)
                     newPlayersBoard[idx]=!newPlayersBoard[idx];
                     
                     return {playersBoard:newPlayersBoard,donePieces:prevState.donePieces+1};
@@ -200,14 +200,17 @@ class Game extends Component {
     
     render(){
         return (<>
-        hello!! from Game compo...
+        <h2>Visual-Memory-Game</h2>
         <h3>
            
             {/* {this.state.isPlaying===true?'':this.showActualBoard()} */}
-                <div onClick={this.startGameHandler}>
+                
+               {this.state.startGame===false? 
+             <>   <div onClick={this.startGameHandler}>
                     click to start the Game!!
-                </div>
-
+                </div></>
+                :<></>
+               }
             {
             this.state.startGame===true?
             (this.state.isPlaying===false ?
