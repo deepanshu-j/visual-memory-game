@@ -206,7 +206,7 @@ class Game extends Component {
             {/* {this.state.isPlaying===true?'':this.showActualBoard()} */}
                 
                {this.state.startGame===false? 
-             <>   <div onClick={this.startGameHandler}>
+                 <><div onClick={this.startGameHandler}>
                     click to start the Game!!
                 </div></>
                 :<></>

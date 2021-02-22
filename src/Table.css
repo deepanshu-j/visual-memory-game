@@ -1,5 +1,9 @@
+html {
+	--board-size: 4;
+}
 .table-container {
+	cursor: pointer;
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
+	grid-template-columns: repeat(var(--board-size), 1fr);
 	grid-gap: 2px;
 }

@@ -25,10 +25,10 @@ class Table extends react.Component{
     }
     render(){
     return (<>
-        
+
         {/* {console.log(this.props.board)} */}
           
-          <ol className="table-container">
+          <ol  style={{'--board-size':this.props.boardSize}} className="table-container">
             {this.props.board.map((subItems, sIndex) => {
 
               //using index as key as surely there wont be any rearrangement in the order//
