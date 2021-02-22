@@ -1,9 +1,23 @@
 html {
-	--board-size: 4;
+	--board-size: 3;
 }
+/* .outer-container {
+	background-color: blueviolet;
+	width: 0.9vw;
+	height: 0.9vh;
+} */
 .table-container {
 	cursor: pointer;
+
 	display: grid;
-	grid-template-columns: repeat(var(--board-size), 1fr);
-	grid-gap: 2px;
+	grid-template-columns: repeat(var(--board-size, 3), 75px);
+	justify-content: center;
+}
+.img-container {
+	width: 75px;
+	height: 75px;
+}
+.img-container:hover {
+	width: 76px;
+	height: 76px;
 }

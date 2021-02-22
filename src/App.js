@@ -1,6 +1,7 @@
 import './App.css';
 import Game from './Game';
-
+//without this it wont apply styles
+import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
 	return (
 		<div className="App">

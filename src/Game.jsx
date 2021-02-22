@@ -1,6 +1,9 @@
 import react,{Component} from 'react';
 import { act } from 'react-dom/cjs/react-dom-test-utils.development';
 import Table from './Table';
+import Button from 'react-bootstrap/Button';
+import AppName from './AppName';
+import Lost from './Lost';
 
 function range(start, end) {
     return Array(end - start + 1).fill().map((_, idx) => start + idx)
@@ -35,12 +38,14 @@ var initialState={
     prevSize:2,
     boardSize:3,
     startGame:false,
+    wrongMovesCount:0,
     donePieces:0,
     // movesLeft:3,
     actualBoard:[],//bool array ///true at the set indices 
     playersBoard : [],//rangeZero(0,8),
     isPlaying:false,
-    wonThis:true
+    wonThis:true,
+    gameLost:false
 };
 class Game extends Component {
     constructor(props)
@@ -66,7 +71,6 @@ class Game extends Component {
                 //check if he's won this game then change the state to next level
                 if(this.state.donePieces+1===this.state.onTiles)
                 {   
-
                     let newPlayersBoard=[...prevState.playersBoard];
                     console.log(newPlayersBoard)
                     newPlayersBoard[idx]=!newPlayersBoard[idx];
@@ -81,11 +85,8 @@ class Game extends Component {
                         // swap(newFibAlt,newFibPrev)
                         [newFibAlt,newFibPrev]=[newFibPrev,newFibAlt];
                         
-
                         newFibAlt+=newFibPrev;
-                        
                         ansFib=newFibAlt;
-
                         ansBoardSize++;
 
                     }
@@ -95,10 +96,10 @@ class Game extends Component {
                         ansFib--;
                     }
                     //curr will be decreased by 1 every time when it becomes 0 next cycle of fib which will be prev + curralt
-                //    console.log(newFibPrev)
-                //    console.log(ansFib)
-                //    console.log(newFibAlt)
-                //    console.log('\n')
+                    //    console.log(newFibPrev)
+                    //    console.log(ansFib)
+                    //    console.log(newFibAlt)
+                    //    console.log('\n')
                     return {playersBoard:newPlayersBoard,
                             donePieces:0,
                             isPlaying:false,
@@ -113,22 +114,29 @@ class Game extends Component {
                     ///he has done it correctly
                 }
                 else
-                {
+                {   
+                    //he has done this tile correctly but there are some left// 
                     let newPlayersBoard=[...prevState.playersBoard];
-                   // console.log(newPlayersBoard)
                     newPlayersBoard[idx]=!newPlayersBoard[idx];
-                    
+                    //console.log(newPlayersBoard)
                     return {playersBoard:newPlayersBoard,donePieces:prevState.donePieces+1};
                 }
 
             }
             else{
+                //he made a wrong move//
                 let newPlayersBoard=[...prevState.playersBoard];
                     newPlayersBoard[idx]=!newPlayersBoard[idx];
-                    
-                    return {playersBoard:newPlayersBoard,donePieces:prevState.donePieces-1};
+                    // console.log(this.state.wrongMovesCount)
+                    if(prevState.wrongMovesCount===3)
+                    return {gameLost:true,playersBoard:newPlayersBoard,donePieces:prevState.donePieces-1,wrongMovesCount:prevState.wrongMovesCount+1};
+                    else
+                    return {playersBoard:newPlayersBoard,donePieces:prevState.donePieces-1,wrongMovesCount:prevState.wrongMovesCount+1};
             }
         });
+    }
+    restartHandler=()=>{
+        this.setState(initialState);
     }
     timeOutFn=()=>{
         
@@ -200,15 +208,16 @@ class Game extends Component {
     
     render(){
         return (<>
-        <h2>Visual-Memory-Game</h2>
+        <h2><AppName/></h2>
         <h3>
            
             {/* {this.state.isPlaying===true?'':this.showActualBoard()} */}
                 
-               {this.state.startGame===false? 
-                 <><div onClick={this.startGameHandler}>
-                    click to start the Game!!
-                </div></>
+
+                {this.state.startGame===true? 
+                 <><h4 >
+                    LeveL:{this.state.level} , Lives:{3- this.state.wrongMovesCount}
+                </h4></>
                 :<></>
                }
             {
@@ -216,13 +225,17 @@ class Game extends Component {
             (this.state.isPlaying===false ?
                 (<><Table board={this.state.actualBoard} boardSize={this.state.boardSize} isPlaying={this.state.isPlaying}/>
                     {this.getNextLevel()}
-                    {this.timeOutFn()}
-                    
-                    </>
+                    {this.timeOutFn()}    
+                </>
                 )     :
-            <Table playersBoardChanger={this.playersBoardChanger} board={this.state.playersBoard} boardSize={this.state.boardSize} isPlaying={this.state.isPlaying}/>
-            )
-            :<></>
+                        (this.state.wrongMovesCount===3 ? 
+                            <Lost restartHandler={this.restartHandler}/>:
+                            <Table playersBoardChanger={this.playersBoardChanger} board={this.state.playersBoard} boardSize={this.state.boardSize} isPlaying={this.state.isPlaying}/>
+                            )
+                        )
+            :<> <Button className="startGameButton" variant="outline-danger" onClick={this.startGameHandler}>
+            click to start the Game!!
+        </Button></>
             }
         </h3></>)
     }
