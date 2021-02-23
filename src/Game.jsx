@@ -4,7 +4,8 @@ import Table from './Table';
 import Button from 'react-bootstrap/Button';
 import AppName from './AppName';
 import Lost from './Lost';
-
+import axios from 'axios';
+import Footer from './Footer';
 function range(start, end) {
     return Array(end - start + 1).fill().map((_, idx) => start + idx)
 }
@@ -45,7 +46,9 @@ var initialState={
     playersBoard : [],//rangeZero(0,8),
     isPlaying:false,
     wonThis:true,
-    gameLost:false
+    gameLost:false,
+    gotCount:false,
+    tellMeCount:12
 };
 class Game extends Component {
     constructor(props)
@@ -177,6 +180,37 @@ class Game extends Component {
 
     }
 
+//    componentDidMount(){
+//         // const url='https://www.google.com'
+//         // //const url='http://localhost:5000/api/count/';
+//         // //const url='https://peaceful-cove-72960.herokuapp.com/api/count/';
+//         // //const url='https://api.github.com/zen';
+//         // let res=await axios.get(url);
+
+// //         fetch('https://jsonplaceholder.typicode.com/todos/1')
+// //   .then(response => response.json())
+// //   .then(json => console.log(json))
+
+// //   fetch('https://peaceful-cove-72960.herokuapp.com/api/count')
+// //   .then(response => response.json())
+// //   .then(json => console.log('yo!! '+json))
+//         // setTimeout(()=>{console.log(typeof(res));
+//         //     console.log(res);},2000);
+//         // console.log(typeof(res));
+//         // console.log(res);
+
+//         fetch('https://peaceful-cove-72960.herokuapp.com/api/viewers')
+//   .then(response => response.json())
+//   .then(json => console.log(json))
+
+//     }
+    componentDidMount(){
+        axios.get('https://peaceful-cove-72960.herokuapp.com/api/count').then(res=>{
+            console.log(res.data.count)
+            this.setState({gotCount:true,tellMeCount:res.data.count});
+          });
+        
+        }
 
     // componentDidMount(){
     //     ///component did mount did two things 
@@ -216,7 +250,7 @@ class Game extends Component {
 
                 {this.state.startGame===true? 
                  <><h4 >
-                    LeveL:{this.state.level} , Lives:{3- this.state.wrongMovesCount}
+                    LeveL : {this.state.level} , Lives : {3- this.state.wrongMovesCount}
                 </h4></>
                 :<></>
                }
@@ -235,7 +269,7 @@ class Game extends Component {
                         )
             :<> <Button className="startGameButton" variant="outline-danger" onClick={this.startGameHandler}>
             click to start the Game!!
-        </Button></>
+        </Button><div><Footer gotCount={this.state.gotCount} tellMeCount={this.state.tellMeCount}/></div></>
             }
         </h3></>)
     }
