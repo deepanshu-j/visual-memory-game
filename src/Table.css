@@ -10,7 +10,7 @@ html {
 	cursor: pointer;
 
 	display: grid;
-	grid-template-columns: repeat(var(--board-size, 3), 75px);
+	grid-template-columns: repeat(var(--board-size, 3), 55px);
 	justify-content: center;
 }
 .img-container {
