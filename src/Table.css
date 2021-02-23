@@ -14,10 +14,10 @@ html {
 	justify-content: center;
 }
 .img-container {
-	width: 75px;
-	height: 75px;
+	width: 55px;
+	height: 55px;
 }
 .img-container:hover {
-	width: 76px;
-	height: 76px;
+	width: 56px;
+	height: 56px;
 }
