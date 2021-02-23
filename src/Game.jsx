@@ -68,14 +68,14 @@ class Game extends Component {
         this.setState((prevState)=>{
 
             let isCorrect= prevState.playersBoard[idx]!==prevState.actualBoard[idx]? true: false ;
-            console.log(isCorrect)
+            //console.log(isCorrect)
             if(isCorrect)
             {
                 //check if he's won this game then change the state to next level
                 if(this.state.donePieces+1===this.state.onTiles)
                 {   
                     let newPlayersBoard=[...prevState.playersBoard];
-                    console.log(newPlayersBoard)
+                    //console.log(newPlayersBoard)
                     newPlayersBoard[idx]=!newPlayersBoard[idx];
                     console.log("you won level "+ prevState.level+" !!");
                     let ansFib=prevState.fibCurr;
@@ -170,7 +170,7 @@ class Game extends Component {
                     newActualBoard[temp_arr2[i]]=true;                
                 }
                 //we have to return the board variable with the random indices true 
-                console.log('newActualBoard insidegetNextLevel '+ newActualBoard)
+                //console.log('newActualBoard insidegetNextLevel '+ newActualBoard)
                 return {actualBoard:newActualBoard,playersBoard:newPlayersBoard,donePieces:0,isPlaying:false,wonThis:false};
             });
         }
@@ -206,7 +206,7 @@ class Game extends Component {
 //     }
     componentDidMount(){
         axios.get('https://peaceful-cove-72960.herokuapp.com/api/count').then(res=>{
-            console.log(res.data.count)
+            //console.log(res.data.count)
             this.setState({gotCount:true,tellMeCount:res.data.count});
           });
         
