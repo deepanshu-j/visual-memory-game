@@ -1,5 +1,7 @@
 html {
 	--board-size: 3;
+	--tile-size: 55px;
+	--hover-tile-size: 56px;
 }
 /* .outer-container {
 	background-color: blueviolet;
@@ -8,16 +10,15 @@ html {
 } */
 .table-container {
 	cursor: pointer;
-
 	display: grid;
-	grid-template-columns: repeat(var(--board-size, 3), 55px);
+	grid-template-columns: repeat(var(--board-size, 3), var(--tile-size));
 	justify-content: center;
 }
 .img-container {
-	width: 55px;
-	height: 55px;
+	width: var(--tile-size);
+	height: var(--tile-size);
 }
 .img-container:hover {
-	width: 56px;
-	height: 56px;
+	width: var(--hover-tile-size);
+	height: var(--hover-tile-size);
 }

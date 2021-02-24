@@ -48,7 +48,10 @@ var initialState={
     wonThis:true,
     gameLost:false,
     gotCount:false,
-    tellMeCount:12
+    tellMeCount:12,
+    width: 0, 
+    height: 0,
+    tileSize:55
 };
 class Game extends Component {
     constructor(props)
@@ -63,6 +66,15 @@ class Game extends Component {
     playHandler=()=>{//to change the state of the game // that halt of 1 sec in the game//
     
             this.setState({play:true});
+    }
+    updateWindowDimensions = () => {
+        this.setState({ width: window.innerWidth, height: window.innerHeight});
+        this.setState(  (prevState,prevProps)=>{
+            let x=(prevState.height<prevState.width)?(prevState.height):(prevState.width);
+            x=x/2;
+            x=Math.floor(x/(prevState.boardSize));
+            return {tileSize:x};
+        });
     }
     playersBoardChanger=(idx)=>{
         this.setState((prevState)=>{
@@ -140,10 +152,9 @@ class Game extends Component {
     }
     restartHandler=()=>{
         this.setState(initialState);
+        this.updateWindowDimensions();
     }
     timeOutFn=()=>{
-        
-        
         setTimeout(()=>{
             this.setState({isPlaying:true});
             } , 1500);
@@ -180,71 +191,28 @@ class Game extends Component {
 
     }
 
-//    componentDidMount(){
-//         // const url='https://www.google.com'
-//         // //const url='http://localhost:5000/api/count/';
-//         // //const url='https://peaceful-cove-72960.herokuapp.com/api/count/';
-//         // //const url='https://api.github.com/zen';
-//         // let res=await axios.get(url);
-
-// //         fetch('https://jsonplaceholder.typicode.com/todos/1')
-// //   .then(response => response.json())
-// //   .then(json => console.log(json))
-
-// //   fetch('https://peaceful-cove-72960.herokuapp.com/api/count')
-// //   .then(response => response.json())
-// //   .then(json => console.log('yo!! '+json))
-//         // setTimeout(()=>{console.log(typeof(res));
-//         //     console.log(res);},2000);
-//         // console.log(typeof(res));
-//         // console.log(res);
-
-//         fetch('https://peaceful-cove-72960.herokuapp.com/api/viewers')
-//   .then(response => response.json())
-//   .then(json => console.log(json))
-
-//     }
     componentDidMount(){
+        this.updateWindowDimensions();
+        window.addEventListener("resize", this.updateWindowDimensions);
         axios.get('https://peaceful-cove-72960.herokuapp.com/api/count').then(res=>{
             //console.log(res.data.count)
             this.setState({gotCount:true,tellMeCount:res.data.count});
-          });
-        
-        }
-
-    // componentDidMount(){
-    //     ///component did mount did two things 
-    //     ///it changed actualBoard to some random actual board with 'onTiles' set tiles
-    //     ///and changed playersBoard to all false board
-
-    //     // console.log('stupid '+this.state.prevSize);
-    //     if(this.state.wonThis===true)
-    //     this.setState((prevState,prevProps)=>{
-
-    //         // let playersBoard
-    //         let newPlayersBoard=rangeZero(0,prevState.boardSize ** 2 -1);
-    //         // console.log('newPlayersBoard '+newPlayersBoard)
-    //         let temp_arr=range(0,prevState.boardSize ** 2 -1);
-    //         // console.log('temp_arr '+temp_arr)
-    //         let temp_arr2=shuffle(temp_arr);//from 0 to 8 correct
-    //         // console.log('temp_arr2 '+temp_arr2)
-    //         let newActualBoard=rangeZero(0,prevState.boardSize ** 2 -1);
- 
-    //         for(let i=0;i<prevState.onTiles;i++ )
-    //         {
-    //             newActualBoard[temp_arr2[i]]=true;                
-    //         }
-    //         //we have to return the board variable with the random indices true 
-    //         console.log('newActualBoard '+newActualBoard)
-    //         return {actualBoard:newActualBoard,playersBoard:newPlayersBoard,donePieces:0};
-    //     });
-    // }
+        });
     
+    }
+    componentWillUnmount(){
+            window.removeEventListener("resize", this.updateWindowDimensions);
+    }    
     render(){
         return (<>
         <h2><AppName/></h2>
         <h3>
-           
+                <div>
+                   {this.state.width}~
+                   {this.state.height}~
+                   {this.state.tileSize}~
+                   {this.state.width < 700?'moblieSized':'notMobileSized'}
+                </div>
             {/* {this.state.isPlaying===true?'':this.showActualBoard()} */}
                 
 
@@ -257,14 +225,14 @@ class Game extends Component {
             {
             this.state.startGame===true?
             (this.state.isPlaying===false ?
-                (<><Table board={this.state.actualBoard} boardSize={this.state.boardSize} isPlaying={this.state.isPlaying}/>
+                (<><Table tileSize={this.state.tileSize} board={this.state.actualBoard} boardSize={this.state.boardSize} isPlaying={this.state.isPlaying}/>
                     {this.getNextLevel()}
                     {this.timeOutFn()}    
                 </>
                 )     :
                         (this.state.wrongMovesCount===3 ? 
                             <Lost restartHandler={this.restartHandler}/>:
-                            <Table playersBoardChanger={this.playersBoardChanger} board={this.state.playersBoard} boardSize={this.state.boardSize} isPlaying={this.state.isPlaying}/>
+                            <Table tileSize={this.state.tileSize} playersBoardChanger={this.playersBoardChanger} board={this.state.playersBoard} boardSize={this.state.boardSize} isPlaying={this.state.isPlaying}/>
                             )
                         )
             :<> <Button className="startGameButton" variant="outline-danger" onClick={this.startGameHandler}>
