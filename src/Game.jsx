@@ -12,6 +12,9 @@ function range(start, end) {
 function rangeZero(start,end){
     return Array(end-start+1).fill(false);
 }
+function getRandomArbitrary(min, max){
+    return  Math.floor( Math.random() * (max - min) + min);
+}
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
   
@@ -51,7 +54,8 @@ var initialState={
     tellMeCount:12,
     width: 0, 
     height: 0,
-    tileSize:55
+    tileSize:55,
+    ranColor:(getRandomArbitrary(1,5))
 };
 class Game extends Component {
     constructor(props)
@@ -165,6 +169,7 @@ class Game extends Component {
         // this.setState({wonThis:true})
 
         if(this.state.wonThis===true){
+            this.updateWindowDimensions();
             this.setState((prevState,prevProps)=>{
 
                 // let playersBoard
@@ -225,14 +230,14 @@ class Game extends Component {
             {
             this.state.startGame===true?
             (this.state.isPlaying===false ?
-                (<><Table tileSize={this.state.tileSize} board={this.state.actualBoard} boardSize={this.state.boardSize} isPlaying={this.state.isPlaying}/>
+                (<><Table ranColor={this.state.ranColor} tileSize={this.state.tileSize} board={this.state.actualBoard} boardSize={this.state.boardSize} isPlaying={this.state.isPlaying}/>
                     {this.getNextLevel()}
                     {this.timeOutFn()}    
                 </>
                 )     :
                         (this.state.wrongMovesCount===3 ? 
                             <Lost restartHandler={this.restartHandler}/>:
-                            <Table tileSize={this.state.tileSize} playersBoardChanger={this.playersBoardChanger} board={this.state.playersBoard} boardSize={this.state.boardSize} isPlaying={this.state.isPlaying}/>
+                            <Table ranColor={this.state.ranColor} tileSize={this.state.tileSize} playersBoardChanger={this.playersBoardChanger} board={this.state.playersBoard} boardSize={this.state.boardSize} isPlaying={this.state.isPlaying}/>
                             )
                         )
             :<> <Button className="startGameButton" variant="outline-danger" onClick={this.startGameHandler}>

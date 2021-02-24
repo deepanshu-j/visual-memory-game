@@ -22,3 +22,6 @@ html {
 	width: var(--hover-tile-size);
 	height: var(--hover-tile-size);
 }
+.myclass path {
+	fill: #e42b2b;
+}
