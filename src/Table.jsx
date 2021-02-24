@@ -33,7 +33,7 @@ class Table extends react.Component{
     return (<div className="outer-conatiner">
 
         {/* {console.log(this.props.board)} */}
-          <div>{this.props.tileSize}</div>
+          {/* <div>{this.props.tileSize}</div> */}
           <ol  style={{'--board-size':this.props.boardSize,'--tile-size':this.props.tileSize+'px','--hover-tile-size':1+this.props.tileSize+'px'}} className="table-container">
             {this.props.board.map((subItems, sIndex) => {
 

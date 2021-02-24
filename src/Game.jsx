@@ -207,12 +207,12 @@ class Game extends Component {
         return (<>
         <h2><AppName/></h2>
         <h3>
-                <div>
+                {/* <div>
                    {this.state.width}~
                    {this.state.height}~
                    {this.state.tileSize}~
                    {this.state.width < 700?'moblieSized':'notMobileSized'}
-                </div>
+                </div> */}
             {/* {this.state.isPlaying===true?'':this.showActualBoard()} */}
                 
 
