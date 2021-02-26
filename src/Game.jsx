@@ -55,7 +55,7 @@ var initialState={
     width: 0, 
     height: 0,
     tileSize:55,
-    ranColor:(getRandomArbitrary(1,5))
+    ranColor: (getRandomArbitrary(1,5))
 };
 class Game extends Component {
     constructor(props)
